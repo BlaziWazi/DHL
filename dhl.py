@@ -32,18 +32,30 @@ def get_excel_files():
     return excel_files
 
 
+# Deletes all text files in the EDS folder:
+def delete_text_files():
+    # Finds and deletes all text files in the EDS folder:
+    for file in os.listdir(os.path.join(desktop_path, eds_folder)):
+        if file.endswith(".txt"):
+            os.remove(os.path.join(desktop_path, eds_folder, file))
+
+
 # Gets all 10-digit numbers from the provided Excel files and writes the results to the text file:
 def get_numbers():
-    # Opens the text file:
-    f = open(os.path.join(desktop_path, eds_folder, "result.txt"), "w")
+    # Deletes all text files in the EDS folder:
+    delete_text_files()
     # Checks if any Excel files exist:
     if not get_excel_files():
+        # Opens the text file:
+        f = open(os.path.join(desktop_path, eds_folder, "no_files.txt"), "w")
         # Writes a line in the text file:
         f.write("Please add Excel files to \"" + os.path.join(desktop_path, eds_folder) + "\" and run the code again!")
+        # Closes the text file:
+        f.close()
     # Checks each Excel file:
     for excel_file in get_excel_files():
-        # Writes the Excel file name in the text file:
-        f.write("Results from \"" + excel_file + "\":\n")
+        # Creates a new text file:
+        f = open(os.path.join(desktop_path, eds_folder, excel_file[0:-4] + "txt"), "w")
         # Converts the Excel file to a CSV file:
         csv = StringIO()
         Xlsx2csv(excel_file, skip_empty_lines=True).convert(csv)
@@ -83,10 +95,8 @@ def get_numbers():
                         # Writes the results to the text file:
                         f.write(pavaddok + "\n" + mrn + "\n")
                 i += 1
-        # Writes a new line in the text file:
-        f.write("\n")
-    # Closes the text file:
-    f.close()
+        # Closes the text file:
+        f.close()
 
 
 # Runs the code:
