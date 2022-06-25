@@ -79,7 +79,6 @@ def get_numbers():
         # Filters the necesarry CSV columns (MRN and PAVADDOK), filters the necessary 10-digit numbers from PAVADDOK:
         csv.seek(0)
         if i_mrn and i_pavaddok:
-            i = 0
             for row in csv_reader:
                 mrn = row[i_mrn]
                 pavaddok = row[i_pavaddok]
@@ -94,7 +93,6 @@ def get_numbers():
                                 break
                         # Writes the results to the text file:
                         f.write(pavaddok + "\n" + mrn + "\n")
-                i += 1
         # Closes the text file:
         f.close()
 
